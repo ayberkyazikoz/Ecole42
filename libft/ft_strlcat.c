@@ -17,7 +17,7 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	size_t	j;
 	size_t	lensrc;
 	size_t	i;
-	int		totallen;
+	size_t	totallen;
 	size_t	lendst;
 
 	j = 0;
