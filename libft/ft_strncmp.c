@@ -12,16 +12,16 @@
 
 #include "libft.h"
 
-int	ft_strncmp(const char *first, const char *second, size_t length)
+int	ft_strncmp(const char *firstStr, const char *secondStr, size_t length)
 {
 	size_t	i;
 
 	i = 0;
 	while (i < length)
 	{
-		if (((unsigned char)first[i] != (unsigned char)second[i]
-				|| first[i] == 0) || second[i] == 0)
-			return ((unsigned char)first[i] - (unsigned char)second[i]);
+		if (((unsigned char)firstStr[i] != (unsigned char)secondStr[i]
+				|| firstStr[i] == 0) || secondStr[i] == 0)
+			return ((unsigned char)firstStr[i] - (unsigned char)secondStr[i]);
 		i++;
 	}
 	return (0);
