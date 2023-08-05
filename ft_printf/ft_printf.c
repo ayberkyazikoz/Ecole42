@@ -1,44 +1,50 @@
 #include "ft_printf.h"
 
-static int  handle_format(const char *str, int *i, va_list a)
+static void ft_printf_checker(char s, va_list *args, int *len, int *i)
 {
-    int     t;
-    t_flags *f;
-
-    t = 0;
-    f = getf1(str, i);
-    if(f)
-    {
-        t = ((int (*)(void *, void *))ft_f(str[*(i)++]))(va_arg(a, void *), f);
-        free(f);
-    }
-    return (t);
+    if (s == 's')
+        ft_string(va_arg(*args, char *), len);
+    else if (s == 'd' || s == 'i')
+        ft_number(va_arg(*args, int), len);
+    else if (s == 'u')
+        ft_unsigned_int(va_arg(*args, unsigned int), len);
+    else if (s == 'x')
+        ft_hexadecimal(va_arg(*args, unsigned int), len, 'x');
+    else if (s == 'X')
+        ft_hexadecimal(va_arg(*args, unsigned int), len, 'X');
+    else if (s == 'p')
+        ft_pointer(va_arg(*args, size_t), len);
+    else if (s == 'c')
+        ft_putcharacter_length(va_arg(*args, int), len);
+    else if (s == '%')
+        ft_putcharacter_length('%', len);
+    else
+        (*i)--;
 }
 
-int ft_printf(const char *str, ...)
+int ft_printf(const char *string, ...)
 {
-    int i;
-    int t;
-    va_list a;
+    va_list args;
+    int     i;
+    int     length;
 
-    va_start(a, str);
     i = 0;
-    t = 0;
-    while (str[i] != '\0')
+    length = 0;
+    va_start(args, string);
+    while (sring[i] != '\0')
     {
-        if (str[i] == '%')
+        if (string[i] == '%')
         {
-            if (ft_strchr("cspiduxX0123456789 +-.#", str[++i]))
-            {
-                t += handle_format(str, &i, a);
-                i++;
-                continue ;
-            }
+            i++;
+            ft_printf_checker(string[i], &args, &length, &i);
+            i++;
         }
-        ft_putchar_fd(str[i], 1);
-        t++;
-        i++;
+        else
+        {
+            ft_putcharacter_length(string[i], &length);
+            i++;
+        }
     }
-    va_end(a);
-    return (t);
+    va_end(args);
+    return (length);
 }
